@@ -40,18 +40,32 @@ public class Main {
         Runnable runnable = new Runnable() {
               @Override
               public void run() {
-                  for(int i = 0; i <= 1000; i++) {
-                      System.out.println(Thread.currentThread().getName() + " Jestem zadaniem 1");
+                  try {
+                      Thread.sleep(5000);
+                  } catch (InterruptedException e) {
+                      e.printStackTrace();
+                  }
+                  for(int i = 0; i <= 100; i++) {
+                      if(Thread.currentThread().isInterrupted()){
+                          return;
+                      }
+
+                      System.out.println(Thread.currentThread().getName() + " Jestem zadaniem 1 ( " + i + ")");
                      // Thread.yield();
                   }
               }
           };
 
+       
+
         Runnable runnable1 = new Runnable() {
             @Override
             public void run() {
-                for(int i = 0; i <= 1000; i++) {
-                    System.out.println(Thread.currentThread().getName() + " Jestem zadaniem 2");
+                for(int i = 0; i <= 100; i++) {
+                    if(Thread.currentThread().isInterrupted()){
+                        return;
+                    }
+                    System.out.println(Thread.currentThread().getName() + " Jestem zadaniem 2 ( " + i + ")");
                    // Thread.yield();
                 }
             }
@@ -60,11 +74,15 @@ public class Main {
         Runnable runnable2 = new Runnable() {
             @Override
             public void run() {
-                for(int i = 0; i <= 1000; i++) {
-                    System.out.println(Thread.currentThread().getName() + " Jestem zadaniem 3");
+                for(int i = 0; i <= 100; i++) {
+                    if(Thread.currentThread().isInterrupted()){
+                        return;
+                    }
+                    System.out.println(Thread.currentThread().getName() + " Jestem zadaniem 3 ( " + i + ")");
                 }
             }
         };
+
 
 
         // Stare podejście
@@ -74,7 +92,13 @@ public class Main {
         //Nowe podejście
         executorService.execute(runnable);
         executorService.execute(runnable1);
-        executorService.execute(runnable2);
+       // executorService.execute(runnable2);
+        //Executor zamknięcie, ale poprzednie zadania wykonają się do końca, każde nowe powoduje błąd.
+        //executorService.shutdown();
+        //Executor zamknięcie, zmienia także status każdego zadania na przerwany!
+       // executorService.shutdownNow();
+        //executorService.execute(runnable1);
+
     }
 
     private static class Operation {
