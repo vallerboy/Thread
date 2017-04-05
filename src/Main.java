@@ -35,13 +35,14 @@ public class Main {
     private ExecutorService executorService;
 
     public Main() {
-          executorService = Executors.newSingleThreadExecutor();
+          executorService = Executors.newFixedThreadPool(2);
 
         Runnable runnable = new Runnable() {
               @Override
               public void run() {
                   for(int i = 0; i <= 1000; i++) {
-                      System.out.println("Jestem zadaniem 1");
+                      System.out.println(Thread.currentThread().getName() + " Jestem zadaniem 1");
+                     // Thread.yield();
                   }
               }
           };
@@ -50,7 +51,18 @@ public class Main {
             @Override
             public void run() {
                 for(int i = 0; i <= 1000; i++) {
-                    System.out.println("Jestem zadaniem 2");
+                    System.out.println(Thread.currentThread().getName() + " Jestem zadaniem 2");
+                   // Thread.yield();
+                }
+            }
+        };
+
+        Runnable runnable2 = new Runnable() {
+            @Override
+            public void run() {
+                for(int i = 0; i <= 1000; i++) {
+                    System.out.println(Thread.currentThread().getName() + " Jestem zadaniem 3");
+                    // Thread.yield();
                 }
             }
         };
@@ -62,6 +74,7 @@ public class Main {
         //Nowe podejście
         executorService.execute(runnable);
         executorService.execute(runnable1);
+        executorService.execute(runnable2);
     }
 
     private static class Operation {
