@@ -62,10 +62,10 @@ public class Main {
             public void run() {
                 for(int i = 0; i <= 1000; i++) {
                     System.out.println(Thread.currentThread().getName() + " Jestem zadaniem 3");
-                    // Thread.yield();
                 }
             }
         };
+
 
         // Stare podejście
         //new Thread(runnable).start();
