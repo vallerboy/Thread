@@ -35,7 +35,7 @@ public class Main {
     private ExecutorService executorService;
 
     public Main() {
-          executorService = Executors.newFixedThreadPool(2);
+          executorService = Executors.newCachedThreadPool();
 
         Runnable runnable = new Runnable() {
               @Override
